@@ -1,15 +1,19 @@
-package models;
+package com.example.jobmanagementproject.models;
 
+import com.example.jobmanagementproject.enums.State;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * A class wrapping up all about a job.
+ *
+ * @author ben-maliktchamalam
+ */
 @Entity
 @Data
 @AllArgsConstructor
@@ -20,6 +24,11 @@ public class Job {
 
     private String title;
 
-    private String state;
+    private State state;
+
+    @Override
+    public String toString() {
+        return title + " " + state.toString();
+    }
 
 }

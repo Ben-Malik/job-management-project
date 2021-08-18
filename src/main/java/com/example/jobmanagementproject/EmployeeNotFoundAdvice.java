@@ -1,6 +1,6 @@
 package com.example.jobmanagementproject;
 
-import com.JobNotFoundException;
+import com.example.jobmanagementproject.exceptions.JobNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
