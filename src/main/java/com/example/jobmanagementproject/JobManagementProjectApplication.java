@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
 @Configuration
-@ComponentScan({"com.example.jobmanagementproject.controllers", "com.example.jobmanagementproject.repositories"})
+@ComponentScan({"com.example.jobmanagementproject.controllers", "com.example.jobmanagementproject.repositories", "com.example.jobmanagementproject.services"})
 public class JobManagementProjectApplication {
 
     public static void main(String[] args) {

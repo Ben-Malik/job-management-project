@@ -3,11 +3,13 @@ package com.example.jobmanagementproject.controllers;
 
 import java.util.List;
 
+import com.example.jobmanagementproject.enums.State;
 import com.example.jobmanagementproject.exceptions.JobNotFoundException;
 import com.example.jobmanagementproject.models.Job;
+import com.example.jobmanagementproject.services.JobManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import com.example.jobmanagementproject.repositories.JobRepository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,44 +21,43 @@ import org.springframework.web.bind.annotation.RestController;
 public class JobController {
 
     @Autowired
-    private JobRepository repository;
+    private JobManager jobManager;
 
     @RequestMapping(value = "/jobs", method = RequestMethod.GET,  produces = {"application/json"})
     public @ResponseBody List<Job> all() {
-        return repository.findAll();
+        return jobManager.getJobs();
     }
 
     @RequestMapping(value = "/jobs", method = RequestMethod.POST)
     public @ResponseBody Job createJob(@RequestBody Job newJob) {
-        return repository.save(newJob);
+        return jobManager.create(newJob);
     }
 
     @RequestMapping(value = "/jobs/{id}", method = RequestMethod.GET)
     public @ResponseBody Job getJob(@PathVariable Long id) throws JobNotFoundException {
 
-        return repository.findById(id)
-                .orElseThrow(() -> new JobNotFoundException(id));
+       try {
 
+           return jobManager.get(id);
+
+       } catch (JobNotFoundException e) {
+          System.out.println(e.getMessage());
+       }
+       return null; //TODO return model and view here.
     }
 
     @RequestMapping(value = "/jobs/{id}", method = RequestMethod.PUT)
     public @ResponseBody Job editJob(@RequestBody Job newJob, @PathVariable Long id) {
-
-        return repository.findById(id)
-                .map(job -> {
-                    job.setTitle(newJob.getTitle());
-                    job.setState(newJob.getState());
-                    return repository.save(job);
-                })
-                .orElseGet(() -> {
-                    newJob.setId(id);
-                    return repository.save(newJob);
-                });
+        return jobManager.update(newJob, id);
     }
 
     @DeleteMapping("/jobs/{id}")
     void deleteJob(@PathVariable Long id) {
-        repository.deleteById(id);
+        jobManager.delete(id);
     }
 
+    @RequestMapping(value = "job/{state}", method = RequestMethod.GET)
+    public @ResponseBody List<Job> getByState(Integer state) {
+        return jobManager.getByState(State.QUEUED);
+    }
 }
