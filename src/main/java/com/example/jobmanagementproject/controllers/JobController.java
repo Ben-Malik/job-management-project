@@ -7,11 +7,8 @@ import com.example.jobmanagementproject.exceptions.JobNotFoundException;
 import com.example.jobmanagementproject.models.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import com.example.jobmanagementproject.repositories.JobRepository;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,8 +44,8 @@ public class JobController {
 
         return repository.findById(id)
                 .map(job -> {
-                    newJob.setTitle(newJob.getTitle());
-                    newJob.setState(newJob.getState());
+                    job.setTitle(newJob.getTitle());
+                    job.setState(newJob.getState());
                     return repository.save(job);
                 })
                 .orElseGet(() -> {
