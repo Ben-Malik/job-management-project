@@ -1,5 +1,6 @@
 package com.example.jobmanagementproject.models;
 
+import com.example.jobmanagementproject.enums.Priority;
 import com.example.jobmanagementproject.enums.State;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class Job {
     private @Id @GeneratedValue Long id;
 
     private String title;
+
+    private Priority priority = Priority.LOW;
 
     private State state;
 
