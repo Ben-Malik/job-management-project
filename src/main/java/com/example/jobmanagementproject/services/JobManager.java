@@ -12,16 +12,46 @@ import java.util.List;
  */
 public interface JobManager {
 
-    public List<Job> getJobs();
+    /**
+     * Get all jobs available in the db.
+     * @return a list of {@link Job}s
+     */
+    List<Job> getJobs();
 
-    public Job get(Long id) throws JobNotFoundException;
+    /**
+     * Get the {@link Job} having given id.
+     * @param id The id of the job sought.
+     * @return A job object.
+     * @throws JobNotFoundException in case there is no job available with given id.
+     */
+    Job get(Long id) throws JobNotFoundException;
 
-    public void delete(Long id);
+    /**
+     * Deletes the job with given id.
+     * @param id Theid of the job to be deleted.
+     */
+    void delete(Long id);
 
-    public Job update(Job newJob, Long id);
+    /**
+     * Updates a job with the given new attributes.
+     * @param newJob The new job to be saved
+     * @param id the id of the job
+     * @return The newly saved job.
+     */
+    Job update(Job newJob, Long id);
 
-    public Job create(Job newJob);
+    /**
+     * Creates a {@link Job}
+     * @param newJob The job to be created
+     * @return The newly created job.
+     */
+    Job create(Job newJob);
 
-    public List<Job> getByState(State state);
+    /**
+     * Grabs all jobs matching the given job {@link State}
+     * @param state The type of state of jobs looked for.
+     * @return A list of jobs
+     */
+    List<Job> getByState(State state);
 
 }
