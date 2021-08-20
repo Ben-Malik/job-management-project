@@ -30,6 +30,10 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
     @Autowired
     JobManager jobManager;
 
+    private final int POOL_SIZE = 10;
+
+    private final int QUEUE_SIZE = 5;
+
     private ThreadPoolTaskScheduler jobScheduler = new ThreadPoolTaskScheduler();
 
     private ExecutorService priorityJobPoolExecutor;
@@ -39,7 +43,7 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
     private PriorityBlockingQueue<Job> priorityQueue;
 
     @Override
-    public void scheduleJob(Job job) {
+    public void runJobNow(Job job) {
         jobScheduler.schedule(job, new Date());
     }
 
@@ -51,11 +55,9 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
     @Override
     @PostConstruct
     public void enqueueJobs() {
-        int poolSize = 10;
-        int queueSize = 20;
 
-        priorityJobPoolExecutor = Executors.newFixedThreadPool(poolSize);
-        priorityQueue = new PriorityBlockingQueue<>(queueSize,
+        priorityJobPoolExecutor = Executors.newFixedThreadPool(POOL_SIZE);
+        priorityQueue = new PriorityBlockingQueue<>(QUEUE_SIZE,
                 Comparator.comparing(Job::getPriority));
 
         populatePriorityQueue();
@@ -89,7 +91,12 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
 
     @Override
     public void scheduleByCron(Job job) {
-        jobScheduler.schedule(job, new CronTrigger(job.getCronRunTime()));
+        if (job.getCronRunTime() == null || job.isRunNow()) {
+            runJobNow(job);
+        } else {
+            jobScheduler.schedule(job, new CronTrigger(job.getCronRunTime()));
+        }
+        jobManager.create(job);
     }
 
     public int getQueuedTaskCount() {
@@ -117,8 +124,8 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
         List<Job> jobs = jobManager.getByState(State.QUEUED);
         for (Job job: jobs) {
             enqueueJob(job);
-            logger.info(job.toString());
         }
+        logger.info("Jobs with State as Queued got queued!");
     }
 
 }

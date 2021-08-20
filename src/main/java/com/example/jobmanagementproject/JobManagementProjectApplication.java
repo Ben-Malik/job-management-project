@@ -16,7 +16,10 @@ import java.util.TimeZone;
 public class JobManagementProjectApplication {
 
     public static void main(String[] args) {
+
+        System.setProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(JobManagementProjectApplication.class, args);
+
     }
 
     @PostConstruct

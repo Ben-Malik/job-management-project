@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface JobSchedulerManager {
 
-    void scheduleJob(Job job);
+    void runJobNow(Job job);
 
     List<Job> getRunningJobs();
 

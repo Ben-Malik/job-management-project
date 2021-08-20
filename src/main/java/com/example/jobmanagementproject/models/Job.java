@@ -7,6 +7,7 @@ import com.example.jobmanagementproject.services.JobManager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,13 +38,15 @@ public class Job implements Runnable {
 
     private JobAction type;
 
+    @Nullable
     private boolean runNow;
 
+    @Nullable
     private String cronRunTime;
 
     @Override
     public String toString() {
-        return title + " " + state.toString();
+        return "Job[ title: " + title + " Priority:" + priority.toString() + ", State:" + state.toString() + " ]";
     }
 
     @Override
