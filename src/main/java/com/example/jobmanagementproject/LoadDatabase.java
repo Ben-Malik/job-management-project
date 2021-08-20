@@ -1,5 +1,6 @@
 package com.example.jobmanagementproject;
 
+import com.example.jobmanagementproject.enums.JobAction;
 import com.example.jobmanagementproject.enums.Priority;
 import com.example.jobmanagementproject.enums.State;
 import org.slf4j.Logger;
@@ -24,8 +25,8 @@ public class LoadDatabase {
     CommandLineRunner initDatabase(JobRepository repository) {
 
         return args -> {
-            log.info("Preloading " + repository.save(new Job(1L, "Bilbo Baggins", Priority.LOW, State.QUEUED)));
-            log.info("Preloading " + repository.save(new Job(1L, "Frodo Baggins", Priority.HIGH, State.COMPLETED)));
+            log.info("Preloading " + repository.save(new Job(1L, "Bilbo Baggins", Priority.LOW, State.QUEUED, JobAction.DATA_LOAD, true, "*")));
+            log.info("Preloading " + repository.save(new Job(2L, "Bilbo Baggins", Priority.LOW, State.QUEUED, JobAction.DATA_LOAD, true, "*")));
 
         };
     }

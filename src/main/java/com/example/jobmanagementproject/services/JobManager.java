@@ -54,4 +54,28 @@ public interface JobManager {
      */
     List<Job> getByState(State state);
 
+    /**
+     * Grabs jobs that are currently in the queue.
+     * @return a list of jobs with state queued
+     */
+    List<Job> getQueuedJobs();
+
+    /**
+     * Grabs jobs currently running.
+     * @return a list of job.
+     */
+    List<Job> getRunningJobs();
+
+    /**
+     * Grabs jobs having failed.
+     * @return  a list of job.
+     */
+    List<Job> getFailedJobs();
+
+    /**
+     * Grabs jobs having completed.
+     * @return a list of job.
+     */
+    List<Job> getCompletedJobs();
+
 }

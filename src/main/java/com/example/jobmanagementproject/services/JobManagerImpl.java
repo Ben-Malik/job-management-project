@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * An implementation of the JobManager interface.
+ *
+ * @author ben-maliktchamalam
+ */
 @Service
 public class JobManagerImpl implements JobManager{
 
@@ -55,4 +60,25 @@ public class JobManagerImpl implements JobManager{
     public List<Job> getByState(State state) {
         return jobRepository.getAllByState(state);
     }
+
+    @Override
+    public List<Job> getQueuedJobs() {
+        return getByState(State.QUEUED);
+    }
+
+    @Override
+    public List<Job> getRunningJobs() {
+        return getByState(State.RUNNING);
+    }
+
+    @Override
+    public List<Job> getFailedJobs() {
+        return getByState(State.FAILED);
+    }
+
+    @Override
+    public List<Job> getCompletedJobs() {
+        return getByState(State.DONE);
+    }
+
 }
