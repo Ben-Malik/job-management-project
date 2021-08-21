@@ -54,7 +54,7 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
     public Job runJobNow(Job job) {
         jobScheduler.schedule(job, new Date());
         job.setState(State.DONE);
-        jobManager.create(job);
+        jobManager.save(job);
         return job;
     }
 
@@ -104,7 +104,7 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
                 try {
                     Job currentJob = priorityQueue.take();
                     priorityJobPoolExecutor.execute(currentJob);
-                    jobManager.create(currentJob);
+                    jobManager.save(currentJob);
                 } catch (InterruptedException e) {
                     logger.info(e.getMessage());
                     break;
@@ -118,7 +118,7 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
         List<Job> jobs = jobManager.getFailedJobs();
         for (Job job: jobs) {
             job.setState(State.DONE);
-            jobManager.create(job);
+            jobManager.save(job);
         }
 
     }
@@ -139,19 +139,18 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
         jobScheduler.schedule(job, new CronTrigger(job.getCronRunTime()));
     }
 
-    @Override
     @PostConstruct
-    public void runCronJobs() {
+    public void initializeScheduler() {
         jobScheduler.initialize();
     }
 
     @Scheduled(cron = "10 * * * * *")
-    public void run() {
+    public void runCronJobs() {
         List<Job> cronJobs = jobManager.getJobsWithCron();
         for (Job job: cronJobs) {
            if (job.getState() != State.DONE) {
                scheduleByCron(job);
-               jobManager.create(job);
+               jobManager.save(job);
            }
         }
     }

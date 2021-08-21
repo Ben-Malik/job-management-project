@@ -29,7 +29,7 @@ public class JobController {
 
     @RequestMapping(value = "/jobs", method = RequestMethod.POST)
     public @ResponseBody Job createJob(@RequestBody Job newJob) {
-        return jobManager.create(newJob);
+        return jobManager.save(newJob);
     }
 
     @RequestMapping(value = "/jobs/{id}", method = RequestMethod.GET)

@@ -45,7 +45,7 @@ public interface JobManager {
      * @param newJob The job to be created
      * @return The newly created job.
      */
-    Job create(Job newJob);
+    Job save(Job newJob);
 
     /**
      * Grabs all jobs matching the given job {@link State}

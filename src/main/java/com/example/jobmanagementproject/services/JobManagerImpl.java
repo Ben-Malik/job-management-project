@@ -55,10 +55,8 @@ public class JobManagerImpl implements JobManager{
     }
 
     @Override
-    public Job create(Job newJob) {
-        Job job = jobRepository.save(newJob);
-        System.out.println(job);
-        return job;
+    public Job save(Job newJob) {
+        return jobRepository.save(newJob);
     }
 
     @Override
