@@ -7,26 +7,101 @@
     <link th:href="@{/styles/css/main.css}" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-
-<div class="page-content">
-    <div class="header">
-        <h2>Job Management System Dashboard</h2>
-    </div>
-    <div class="headlines">
-        <div class="headline">
-            <h4>Jobs Done</h4>
+    <body>
+        <div class="page-content">
+            <div class="header">
+                <h2>Job Management System Dashboard</h2>
+            </div>
+            <div class="headlines">
+                <div class="headline">
+                    <h4>Jobs Done</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th> Title </th>
+                                <th> State </th>
+                                <th> Priority </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${completed.size == 0}">
+                                <td colspan="2"> 0 Jobs Done </td>
+                            </tr>
+                            <tr th:each="job : ${completed}">
+                                <td><span th:text="${job.title}"> Title </span></td>
+                                <td><span th:text="${job.state}"> State </span></td>
+                                <td><span th:text="${job.priority}"> Priority </span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="headline">
+                    <h4>Running Jobs</h4>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th> Title </th>
+                            <th> State </th>
+                            <th> Priority </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${running.size == 0}">
+                            <td colspan="2"> 0 Jobs Running </td>
+                        </tr>
+                        <tr th:each="job : ${running}">
+                            <td><span th:text="${job.title}"> Title </span></td>
+                            <td><span th:text="${job.state}"> State </span></td>
+                            <td><span th:text="${job.priority}"> Priority </span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="headline">
+                    <h4>Queued Jobs</h4>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th> Title </th>
+                            <th> State </th>
+                            <th> Priority </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${queued.size == 0}">
+                            <td colspan="2"> 0 Jobs Queued </td>
+                        </tr>
+                        <tr th:each="job : ${queued}">
+                            <td><span th:text="${job.title}"> Title </span></td>
+                            <td><span th:text="${job.state}"> State </span></td>
+                            <td><span th:text="${job.priority}"> Priority </span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="headline">
+                    <h4>Failed Jobs</h4>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th> Title </th>
+                            <th> State </th>
+                            <th> Priority </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${failed.size == 0}">
+                            <td colspan="2"> 0 Jobs Failed </td>
+                        </tr>
+                        <tr th:each="job : ${failed}">
+                            <td><span th:text="${job.title}"> Title </span></td>
+                            <td><span th:text="${job.state}"> State </span></td>
+                            <td><span th:text="${job.priority}"> Priority </span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div class="headline">
-            <h4>Running Jobs</h4>
-        </div>
-        <div class="headline">
-            <h4>Queued Jobs</h4>
-        </div>
-        <div class="headline">
-            <h4>Failed Jobs</h4>
-        </div>
-    </div>
-</div>
-</body>
+    </body>
 </html>

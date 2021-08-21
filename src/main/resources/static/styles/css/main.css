@@ -13,8 +13,10 @@ p {
     font-family: sans-serif;
 }
 body {
-    background-color: darkblue;
+    background-color: #403d3d;
     color: white;
+    font-family: sans-serif;
+    font-size: 1.5em;
 }
 
 .page-content {
@@ -30,12 +32,15 @@ body {
 .headlines {
     display: flex;
     flex-wrap: wrap;
+    text-align: start;
+
 }
 
 /* Create four equal columns */
 .headline {
     flex: 25%;
     padding: 20px;
+    text-align: left;
 }
 
 /* On screens that are 992px wide or less, go from four columns to two columns */
@@ -50,4 +55,15 @@ body {
     .headlines {
         flex-direction: column;
     }
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+tr:nth-child(even) {background-color: darkgray;}
+
+th {
+    background-color: #04AA6D;
+    color: white;
 }

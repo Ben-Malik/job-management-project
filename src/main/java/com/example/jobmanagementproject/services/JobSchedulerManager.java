@@ -11,6 +11,12 @@ public interface JobSchedulerManager {
 
     List<Job> getRunningJobs();
 
+    List<Job> getFailedJobs();
+
+    List<Job> getCompletedJobs();
+
+    List<Job> getQueuedJobs();
+
     void enqueueJobs();
 
     void enqueueJob(Job job);

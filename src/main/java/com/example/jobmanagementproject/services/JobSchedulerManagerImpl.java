@@ -49,7 +49,22 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
 
     @Override
     public List<Job> getRunningJobs() {
-        return null;
+        return jobManager.getRunningJobs();
+    }
+
+    @Override
+    public List<Job> getFailedJobs() {
+        return jobManager.getFailedJobs();
+    }
+
+    @Override
+    public List<Job> getCompletedJobs() {
+        return jobManager.getCompletedJobs();
+    }
+
+    @Override
+    public List<Job> getQueuedJobs() {
+        return jobManager.getQueuedJobs();
     }
 
     @Override
