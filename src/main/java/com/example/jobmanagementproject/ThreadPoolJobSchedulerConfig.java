@@ -4,6 +4,7 @@ import com.example.jobmanagementproject.services.JobSchedulerManagerImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.scheduling.support.PeriodicTrigger;
@@ -11,9 +12,10 @@ import org.springframework.scheduling.support.PeriodicTrigger;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
+@EnableAsync
 @ComponentScan(
         basePackages="com.example.jobmanagementproject.services", basePackageClasses = { JobSchedulerManagerImpl.class })
-public class ThreadPoolJobSchedulerConfig {
+public class ThreadPoolJobSchedulerConfig   {
 
     @Bean
     public ThreadPoolTaskScheduler threadPoolTaskScheduler(){

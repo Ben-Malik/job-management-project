@@ -14,7 +14,7 @@
             </div>
             <div class="headlines">
                 <div class="headline">
-                    <h4>Jobs Done</h4>
+                    <h4> <th:block th:text="${#lists.size(queued)}"></th:block> Jobs Done</h4>
                     <table>
                         <thead>
                             <tr>
@@ -36,7 +36,7 @@
                     </table>
                 </div>
                 <div class="headline">
-                    <h4>Running Jobs</h4>
+                    <h4>  <th:block th:text="${#lists.size(running)}"></th:block> Running Jobs</h4>
                     <table>
                         <thead>
                         <tr>
@@ -58,7 +58,7 @@
                     </table>
                 </div>
                 <div class="headline">
-                    <h4>Queued Jobs</h4>
+                    <h4 > <th:block th:text="${#lists.size(queued)}"></th:block> Queued Jobs</h4>
                     <table>
                         <thead>
                         <tr>
@@ -80,7 +80,7 @@
                     </table>
                 </div>
                 <div class="headline">
-                    <h4>Failed Jobs</h4>
+                    <h4><th:block th:text="${#lists.size(failed)}"></th:block> Failed Jobs</h4>
                     <table>
                         <thead>
                         <tr>

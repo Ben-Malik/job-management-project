@@ -22,6 +22,13 @@ public interface JobRepository  extends JpaRepository<Job, Long> {
      * @return A list of Jobs.
      */
     @Query("select j from Job j where j.state = :state")
-    public List<Job> getAllByState(State state);
+    List<Job> getAllByState(State state);
+
+    /**
+     * Grabs all jobs having their cron run time not null and valid.
+     * @return a list of {@link Job}s.
+     */
+    @Query("select j from Job j where j.cronRunTime IS NOT NULL AND LENGTH(j.cronRunTime) > 0")
+    List<Job> getJobsWithCron();
 
 }

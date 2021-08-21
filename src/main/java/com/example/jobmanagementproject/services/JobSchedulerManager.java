@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface JobSchedulerManager {
 
-    void runJobNow(Job job);
+    Job runJobNow(Job job);
 
     List<Job> getRunningJobs();
 
@@ -25,7 +25,8 @@ public interface JobSchedulerManager {
 
     void scheduleByCron(Job job);
 
+    void runCronJobs();
 
-
+    List<Job> runJobsNow(List<Job> jobs);
 
 }

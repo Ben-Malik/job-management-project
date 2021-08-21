@@ -5,7 +5,9 @@ import com.example.jobmanagementproject.exceptions.JobNotFoundException;
 import com.example.jobmanagementproject.models.Job;
 import com.example.jobmanagementproject.repositories.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
  * @author ben-maliktchamalam
  */
 @Service
+@Transactional
 public class JobManagerImpl implements JobManager{
 
     @Autowired
@@ -53,7 +56,9 @@ public class JobManagerImpl implements JobManager{
 
     @Override
     public Job create(Job newJob) {
-        return jobRepository.save(newJob);
+        Job job = jobRepository.save(newJob);
+        System.out.println(job);
+        return job;
     }
 
     @Override
@@ -79,6 +84,11 @@ public class JobManagerImpl implements JobManager{
     @Override
     public List<Job> getCompletedJobs() {
         return getByState(State.DONE);
+    }
+
+    @Override
+    public List<Job> getJobsWithCron() {
+        return jobRepository.getJobsWithCron();
     }
 
 }

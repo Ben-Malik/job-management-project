@@ -3,18 +3,25 @@ package com.example.jobmanagementproject.models;
 import com.example.jobmanagementproject.enums.JobAction;
 import com.example.jobmanagementproject.enums.Priority;
 import com.example.jobmanagementproject.enums.State;
-import com.example.jobmanagementproject.services.JobManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import com.google.gson.Gson;
 
 
 /**
@@ -41,8 +48,7 @@ public class Job implements Runnable {
     @Nullable
     private boolean runNow;
 
-    @Nullable
-    private String cronRunTime;
+    private String cronRunTime = "";
 
     @Override
     public String toString() {
@@ -51,19 +57,17 @@ public class Job implements Runnable {
 
     @Override
     public void run() {
-        JobManager jobManager;
+
         Logger logger = Logger.getLogger(Job.class.getName());
         state = State.RUNNING;
         try {
-            System.out.println("Runnable Task with " + title + " on thread " + Thread.currentThread().getName());
-            Thread.sleep(1000);
             state = State.DONE;
-
+            System.out.println("Runnable Task with " + title + " on thread " + Thread.currentThread().getName() + new Date() + this) ;
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             logger.log(new LogRecord(Level.FINE, e.getMessage()));
             state = State.FAILED;
         }
 
     }
-
 }

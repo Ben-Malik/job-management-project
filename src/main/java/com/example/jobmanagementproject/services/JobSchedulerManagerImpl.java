@@ -4,11 +4,15 @@ import com.example.jobmanagementproject.enums.State;
 import com.example.jobmanagementproject.models.Job;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +29,10 @@ import java.util.logging.Logger;
  */
 
 @Component
+@Service
+@EnableScheduling
 public class JobSchedulerManagerImpl implements JobSchedulerManager{
+    Logger logger = Logger.getLogger(JobSchedulerManagerImpl.class.getName());
 
     @Autowired
     JobManager jobManager;
@@ -34,7 +41,8 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
 
     private final int QUEUE_SIZE = 5;
 
-    private ThreadPoolTaskScheduler jobScheduler = new ThreadPoolTaskScheduler();
+    @Autowired
+    private ThreadPoolTaskScheduler jobScheduler;
 
     private ExecutorService priorityJobPoolExecutor;
 
@@ -43,8 +51,22 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
     private PriorityBlockingQueue<Job> priorityQueue;
 
     @Override
-    public void runJobNow(Job job) {
+    public Job runJobNow(Job job) {
         jobScheduler.schedule(job, new Date());
+        job.setState(State.DONE);
+        jobManager.create(job);
+        return job;
+    }
+
+    @Override
+    public List<Job> runJobsNow(List<Job> jobs) {
+        List<Job> resultJobs = new ArrayList<>();
+        for(Job job: jobs) {
+            job = runJobNow(job);
+            resultJobs.add(job);
+        }
+
+        return resultJobs;
     }
 
     @Override
@@ -68,7 +90,7 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
     }
 
     @Override
-    @PostConstruct
+    @Scheduled(cron = "10 * * * * *")
     public void enqueueJobs() {
 
         priorityJobPoolExecutor = Executors.newFixedThreadPool(POOL_SIZE);
@@ -82,15 +104,23 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
                 try {
                     Job currentJob = priorityQueue.take();
                     priorityJobPoolExecutor.execute(currentJob);
-                    if(currentJob.getState().equals(State.RUNNING))
-                        currentJob.setState(State.DONE);
                     jobManager.create(currentJob);
                 } catch (InterruptedException e) {
-                    // exception needs special handling
+                    logger.info(e.getMessage());
                     break;
                 }
             }
         });
+    }
+
+    @Scheduled(cron = "*/10 * * * * *")
+    public void concludeRunningJobs() {
+        List<Job> jobs = jobManager.getFailedJobs();
+        for (Job job: jobs) {
+            job.setState(State.DONE);
+            jobManager.create(job);
+        }
+
     }
 
     @Override
@@ -106,16 +136,24 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
 
     @Override
     public void scheduleByCron(Job job) {
-        if (job.getCronRunTime() == null || job.isRunNow()) {
-            runJobNow(job);
-        } else {
-            jobScheduler.schedule(job, new CronTrigger(job.getCronRunTime()));
-        }
-        jobManager.create(job);
+        jobScheduler.schedule(job, new CronTrigger(job.getCronRunTime()));
     }
 
-    public int getQueuedTaskCount() {
-        return priorityQueue.size();
+    @Override
+    @PostConstruct
+    public void runCronJobs() {
+        jobScheduler.initialize();
+    }
+
+    @Scheduled(cron = "10 * * * * *")
+    public void run() {
+        List<Job> cronJobs = jobManager.getJobsWithCron();
+        for (Job job: cronJobs) {
+           if (job.getState() != State.DONE) {
+               scheduleByCron(job);
+               jobManager.create(job);
+           }
+        }
     }
 
     protected void close(ExecutorService scheduler) {
@@ -135,12 +173,11 @@ public class JobSchedulerManagerImpl implements JobSchedulerManager{
     }
 
     private void populatePriorityQueue() {
-        Logger logger = Logger.getLogger(JobSchedulerManagerImpl.class.getName());
         List<Job> jobs = jobManager.getByState(State.QUEUED);
         for (Job job: jobs) {
             enqueueJob(job);
         }
-        logger.info("Jobs with State as Queued got queued!");
+        logger.info("Jobs with State as Queued got queued!" + jobs.size() + " Jobs queued");
     }
 
 }

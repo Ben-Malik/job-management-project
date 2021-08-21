@@ -25,8 +25,8 @@ public class LoadDatabase {
     CommandLineRunner initDatabase(JobRepository repository) {
 
         return args -> {
-            log.info("Preloading " + repository.save(new Job(1L, "Bilbo Baggins", Priority.LOW, State.QUEUED, JobAction.DATA_LOAD, true, "*")));
-            log.info("Preloading " + repository.save(new Job(2L, "Bilbo Baggins", Priority.LOW, State.QUEUED, JobAction.DATA_LOAD, true, "*")));
+            log.info("Preloading " + repository.save(new Job(1L, "Bilbo Baggins", Priority.LOW, State.QUEUED, JobAction.DATA_LOAD, true, "10 * * * * ?")));
+            log.info("Preloading " + repository.save(new Job(2L, "Bilbo Baggins", Priority.LOW, State.QUEUED, JobAction.DATA_LOAD, true, "1 * * * * *")));
 
         };
     }

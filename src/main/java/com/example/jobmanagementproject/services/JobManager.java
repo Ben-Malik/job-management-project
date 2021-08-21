@@ -78,4 +78,6 @@ public interface JobManager {
      */
     List<Job> getCompletedJobs();
 
+    List<Job> getJobsWithCron();
+
 }
