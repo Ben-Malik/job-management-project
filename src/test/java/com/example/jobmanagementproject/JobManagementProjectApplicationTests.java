@@ -61,19 +61,6 @@ class JobManagementProjectApplicationTests {
     }
 
     @Test
-    public void testGetDoneJobs() {
-
-        List<Job> jobs = Arrays.asList(
-                createJob(1L, "Clean your room", State.QUEUED),
-                createJob(2L, "Go to gym", State.QUEUED)
-        );
-
-        List<Job> resultJobs = jobSchedulerManager.runJobsNow(jobs);
-
-        assertThat(resultJobs.size()).isEqualTo(2);
-    }
-
-    @Test
     public void testJobIsInDoneStateWhenSuccessfullyExecuted() throws Exception {
         Job job = new Job();
         job.setId(1L);
