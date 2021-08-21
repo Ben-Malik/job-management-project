@@ -1,12 +1,11 @@
-# job-management-project
-
+# Job Management System - SPRING BOOT & Thymleaf
 The milestone of this very project is to allow managing jobs
 to be run at any wished time.
 
 You could schedule a job to be executed at a particular time or
 execute it immediately.
 
-Each of the jobs are in one of the States: QUEUED, RUNNING, DONE,or FAILED.
+Each of the jobs are in one of the States: <code>QUEUED</code>,  <code>RUNNING</code>,  <code>DONE</code>,or  <code>FAILED</code>.
 
 For testing purpose the in-memory database H2 has been utilised.
 
