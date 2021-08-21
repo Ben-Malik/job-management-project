@@ -1,0 +1,69 @@
+h2 {
+    font-family: sans-serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
+strong {
+    font-weight: 700;
+    background-color: yellow;
+}
+
+p {
+    font-family: sans-serif;
+}
+body {
+    background-color: darkblue;
+    color: white;
+    font-family: sans-serif;
+    font-size: 1.5em;
+}
+
+.page-content {
+    margin: 20px;
+    text-align: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Container for flexboxes */
+.headlines {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: start;
+
+}
+
+/* Create four equal columns */
+.headline {
+    flex: 25%;
+    padding: 20px;
+    text-align: left;
+}
+
+/* On screens that are 992px wide or less, go from four columns to two columns */
+@media screen and (max-width: 992px) {
+    .headline {
+        flex: 50%;
+    }
+}
+
+/* On screens that are 600px wide or less, make the columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .headlines {
+        flex-direction: column;
+    }
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+tr:nth-child(even) {background-color: darkgray;}
+
+th {
+    background-color: #04AA6D;
+    color: white;
+}

@@ -8,7 +8,7 @@ package com.example.jobmanagementproject.enums;
 public enum State {
     QUEUED(0),
     RUNNING(1),
-    COMPLETED(2),
+    DONE(2),
     FAILED(3);
 
     private final int stateOrdinal;
