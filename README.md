@@ -12,7 +12,8 @@ For testing purpose the in-memory database H2 has been utilised.
 
 # To run the project on your local
 <code>$ git clone https://github.com/Ben-Malik/job-management-project <code/>
-<br>
+
+
 <code> $cd job-management-project </code>
 <br>
 
@@ -30,4 +31,4 @@ For testing purpose the in-memory database H2 has been utilised.
 3. Ensure the jobs are saved to the database after their run in the schedule mode.
 4. Deploy the project to a remote host.
 
-**Got any ideas or suggestions on the project?** Drop me an email at [benmaliktchamalam@gmail.com](mailto:benmaliktchamalam@gmail.com) to discuss! 
+**Got any ideas or suggestions on the project?** Drop me an email at [benmaliktchamalam@gmail.com](mailto:benmaliktchamalam@gmail.com) to discuss!
