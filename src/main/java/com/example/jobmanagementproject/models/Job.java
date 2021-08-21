@@ -3,18 +3,14 @@ package com.example.jobmanagementproject.models;
 import com.example.jobmanagementproject.enums.JobAction;
 import com.example.jobmanagementproject.enums.Priority;
 import com.example.jobmanagementproject.enums.State;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.json.simple.JSONObject;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -59,7 +55,7 @@ public class Job implements Runnable {
     public void run() {
 
         Logger logger = Logger.getLogger(Job.class.getName());
-        state = State.RUNNING;
+        this.state = State.RUNNING;
         try {
             state = State.DONE;
             System.out.println("Runnable Task with " + title + " on thread " + Thread.currentThread().getName() + new Date() + this) ;
@@ -68,6 +64,5 @@ public class Job implements Runnable {
             logger.log(new LogRecord(Level.FINE, e.getMessage()));
             state = State.FAILED;
         }
-
     }
 }

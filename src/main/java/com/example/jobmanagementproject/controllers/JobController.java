@@ -1,6 +1,5 @@
 package com.example.jobmanagementproject.controllers;
 
-
 import java.util.List;
 
 import com.example.jobmanagementproject.enums.State;

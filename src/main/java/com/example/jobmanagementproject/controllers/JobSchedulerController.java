@@ -14,11 +14,6 @@ public class JobSchedulerController {
     @Autowired
     private JobSchedulerManager schedulerManager;
 
-    @RequestMapping(value = "/runQueuedJobs", method = RequestMethod.PUT)
-    public @ResponseBody void executeByPriority() {
-        schedulerManager.enqueueJobs();
-    }
-
    @RequestMapping(value = "/job-manager", method = RequestMethod.GET)
     public ModelAndView displayJobs() {
 
